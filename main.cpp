@@ -27,6 +27,7 @@ const std::string SERVICE_FILE_PREFIX = "log/";
 
 int main()
 {
+    FileUtils::makeDirectoryIfNotExists("log");
     FileUtils::createFileIfNotExists(SERVICE_FILE_PATH);
 
     crow::App<CORSHandler> app;

@@ -68,4 +68,22 @@ public:
             throw std::runtime_error("Error: Unable to delete file: " + filePath);
         }
     }
+
+    static void makeDirectoryIfNotExists(const std::string &directoryPath)
+    {
+        std::unique_lock<std::shared_mutex> uniqueLock(fileMutex);
+
+        if (std::filesystem::exists(directoryPath)) {
+            return;
+        }
+
+        try {
+            if (!std::filesystem::create_directories(directoryPath)) {
+                throw std::runtime_error("Error: Unable to create directory: " + directoryPath);
+            }
+        }
+        catch (const std::exception &e) {
+            throw std::runtime_error("Exception while creating directory: " + directoryPath + " - " + e.what());
+        }
+    }
 };
